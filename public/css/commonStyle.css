@@ -1,0 +1,90 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--primary-bg);
+    font-family: "DM Sans", sans-serif;
+
+    color: var(--text-primary);
+}
+
+span,em{
+    font-family: "Source Code Pro", monospace;
+}
+
+.none{
+    display: none !important;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: var(--white);
+    padding: 10px;
+    width: 100%;
+    display: block;
+    width: max-content;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.secondary-btn {
+    background: var(--secondary);
+    color: var(--white);
+    padding: 10px;
+    width: 100%;
+    display: block;
+    width: max-content;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.primary-btn:hover {
+    background: var(--primary-hover);
+}
+
+.secondary-btn:hover {
+    background: var(--secondary-hover);
+}
+
+.img-fluid-h{
+    height: 100%;
+    width: auto;
+}
+
+.img-fluid-w{
+    width: 100%;
+    height: auto;
+}
+
+a{
+    text-decoration: none;
+
+    color: var(--text-primary);
+}
+
+input{
+    outline: none;
+}
+
+.r-lock-square{
+    aspect-ratio: 1/1 !important;
+    height: max-content;
+}
+
+
+/* common margins */
+
+.m-b-10{
+    margin-bottom: 10px;
+}

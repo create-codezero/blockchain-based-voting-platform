@@ -1,0 +1,296 @@
+
+@import url('/css/commonStyle.css');
+@import url('/css/variables.css');
+@import url('/css/responsive.css');
+
+/* index Page */
+
+.mainContainer{
+    max-width: 1800px;
+    width: 100%;
+    height: auto;
+}
+
+.headerContainer{
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 20px;
+
+    height: 55px;
+
+    box-shadow: 0 5px 15px var(--primary-bg-shadow);
+}
+
+.headerContainer .headerLogo{
+    display: flex;
+    align-items: center;
+
+}
+
+.mainContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 80vh;
+    height: 100%;
+}
+
+.mainContent .rightContent,.mainContent .leftContent{
+    max-width: 50%;
+    width:100%;
+    padding: 50px;
+
+    height: 100%;
+}
+
+.mainContent .rightContent .tagLine{
+    font-size: 40px;
+    font-weight: 600;
+
+    color: var(--primary);
+}
+
+.mainContent .rightContent .description{
+    font-size: 16px;
+    font-weight: 400px;
+    color: var(--text-primary);
+}
+
+.mainContent .rightContent .primary-btn{
+    margin-top: 20px;
+}
+
+.keyFeatureContainer{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+
+    width: 90%;
+    margin: auto;
+}
+
+.keyFeatureContainerOuter{
+    border-top: 2px solid var(--primary-bg-shadow);
+}
+
+.keyFeatureContainer .featureCard{
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0px 15px 5px var(--primary-bg-shadow);
+    border: 2px solid var(--primary-bg-shadow);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 15px;
+    /* text-align: center; */
+}
+
+.keyFeatureContainer .featureCard .featureImage{
+    aspect-ratio: 1/1 !important;
+    display: flex;
+    align-items: center;
+}
+
+.keyFeatureContainer .featureCard .featureContent .featureTitle{
+    font-size: 25px;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 10px 0;
+}
+
+.blockTitle{
+    width: 100% !important;
+    text-align: center;
+
+    font-size: 35px;
+    font-weight: 600;
+
+    margin: 30px 0;
+}
+
+
+/* index Page Code ended Above */
+
+
+/* dashboard */
+.candidatesMainContainer{
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.candidatesMainContainer .candidateContainerHeader{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 30px auto;
+}
+
+.candidatesMainContainer .candidateContainerHeader .title{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.candidatesMainContainer .candidateContainerHeader .searchBar{
+    max-width: 300px;
+    width: 100%;
+
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.candidatesMainContainer .candidateContainerHeader .searchBar input{
+    width: 100%;
+
+    text-indent: 10px;
+
+    border-radius: 10px;
+    line-height: 35px;
+    font-size: 16px;
+    font-weight: 500;
+
+    border: 2px solid var(--primary);
+}
+
+
+.candidatesMainContainer .candidateContainerHeader .searchBar .searchButton{
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    background-color: var(--primary);
+
+    height: 100%;
+    aspect-ratio: 1/1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--white);
+
+    cursor: pointer;
+}
+
+.candidatesMainContainer .candidateContainerHeader .searchBar:focus-within input {
+    border: 2px solid var(--secondary);
+}
+
+.candidatesMainContainer .candidateContainerHeader .searchBar:focus-within .searchButton , .candidatesMainContainer .candidateContainerHeader .searchBar .searchButton:hover{
+    background-color: var(--secondary);
+}
+
+
+
+.candidatesCardsContainer{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    width: 90%;
+    margin: auto;
+}
+
+.candidatesCardsContainer .candidateCard{
+    border: 2px solid var(--primary-bg-shadow);
+    box-shadow: 0 0px 15px 5px var(--primary-bg-shadow);
+
+    border-radius: 10px;
+}
+
+.candidatesCardsContainer .candidateCard .upperPart,.candidatesCardsContainer .candidateCard .lowerPart{
+    display: flex;
+    width: 95%;
+    margin: 15px auto;
+}
+
+.candidatesCardsContainer .candidateCard .upperPart .candidateImage{
+    display: flex;
+    border-radius: 100%;
+    overflow: hidden;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1 !important;
+}
+
+.candidatesCardsContainer .candidateCard .upperPart .candidateDetails{
+    margin-left: 10px;
+}
+
+.candidatesCardsContainer .candidateCard .lowerPart a{
+    width: 45%;
+    margin: 5px;
+}
+
+.candidateRefreshIcon{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* dashboard Page Code ended Above */
+
+
+/* logged user menu */
+
+.userMenu{
+    position: fixed;
+    top: 70px;
+    right: 10px;
+
+    max-width: 250px;
+    width: 100%;
+    background-color: var(--primary-bg);
+
+    border: 2px solid var(--primary-bg-shadow);
+    box-shadow: 0 0px 15px 5px var(--primary-bg-shadow);
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    z-index: 100;
+    border-radius:10px;
+}
+
+.userMenu p{
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.userMenu .userEthAddress{
+    max-width: 90%;
+    width: 100%;
+
+    border: 2px solid var(--primary-bg-shadow);
+    background-color: var(--secondary-bg);
+    border-radius: 5px;
+
+    padding: 3px;
+
+    cursor: pointer;
+
+    margin-bottom: 10px;
+}
+
+.userMenu .userEthAddress span {
+    display: inline-block;
+    width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+/* logged user menu Code ended Above */
