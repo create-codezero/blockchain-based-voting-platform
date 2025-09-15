@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - VoteChain</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    
+</head>
+
+<body>
+    <%- include('component/loggedHeader', { user: user }) %>
+
+    <div class="candidatesMainContainer">
+        <div class="candidateContainerHeader">
+            <p class="title">Candidates <i class="fa-solid fa-rotate candidateRefreshIcon"
+                    onclick="showAllCandidates()"></i></p>
+
+            <div class="searchBar">
+                <input type="text" placeholder="Search here" id="filterCandidateInput">
+                <div class="searchButton" onclick="filterCandidates()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="candidatesCardsContainer">
+
+            <% candidates.forEach(candidate => { %>
+            <div class="candidateCard" data-name="<%= candidate.name.toLowerCase() %>"
+                data-region="<%= candidate.region.toLowerCase() %>">
+                <div class="upperPart">
+                    <div class="candidateImage">
+                        <img src="/uploads/images/<%= candidate.photoFileName %>" alt="<%= candidate.name %>"
+                            class="img-fluid-h">
+                    </div>
+
+                    <div class="candidateDetails">
+                        <p class="candidateName">Name:</strong> <%= candidate.name %></p>
+                        <p class="candidateOtherDetails">Region:</strong> <%= candidate.region %></p>
+                        <p class="candidateOtherDetails">Age:</strong> <%= candidate.age %></p>
+                        <p class="candidateOtherDetails">DOB:</strong> <%= candidate.dob %></p>
+                        <p class="candidateOtherDetails">Experience:</strong> <%= candidate.experience %> years</p>
+                        <p class="candidateOtherDetails">Votes:</strong> <%= candidate.voteCount %> </p>
+                    </div>
+                </div>
+
+                <div class="lowerPart">
+                    <a class="viewManifesto secondary-btn" href="/uploads/docs/<%= candidate.manifestoFileName %>"
+                        target="_blank"><i class="fa-solid fa-file"></i> Manifesto</a>
+                    <a class="vote primary-btn" onclick="vote('<%= candidate.id %>')" href="javascript:void(0)"><i
+                            class="fa-solid fa-check-to-slot"></i> Vote</a>
+                </div>
+            </div>
+
+            <% }); %>
+        </div>
+    </div>
+
+    <script>
+        async function vote(candidateId) {
+
+            const response = await fetch("/vote", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    candidateId
+                }),
+            });
+
+            const data = await response.json();
+            alert(data.message);
+            location.reload();
+        }
+
+        document.getElementById("filterCandidateInput").addEventListener("keydown", function (event) {
+            if (event.key === "Enter" && this.value.trim() !== "") {
+                event.preventDefault();
+                filterCandidates();
+            }
+        });
+
+        function filterCandidates() {
+            const searchValue = document.getElementById("filterCandidateInput").value.toLowerCase();
+            const candidates = document.querySelectorAll(".candidateCard");
+
+            candidates.forEach(candidate => {
+                const name = candidate.getAttribute("data-name");
+                const region = candidate.getAttribute("data-region");
+
+                if (name.includes(searchValue) || region.includes(searchValue)) {
+                    candidate.style.display = "block";
+                } else {
+                    candidate.style.display = "none";
+                }
+            });
+        }
+
+        function showAllCandidates() {
+            const candidates = document.querySelectorAll(".candidateCard");
+
+            candidates.forEach(candidate => {
+                candidate.style.display = "block";
+            });
+
+            document.getElementById("filterCandidateInput").value = "";
+        }
+    </script>
+
+    <script src="/js/commonJs.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<div class="headerContainer">
+    <div class="headerLogo">
+      <a href="/">
+        <p>VoteChain</p>
+      </a>
+    </div>
+  
+    <div class="headerMenu">
+      <a href="javascript:void(0)" class="primary-btn r-lock-square" onclick="userMenu()"><i class="fa-solid fa-user"></i></a>
+    </div>
+  </div>
+
+  <div class="userMenu none">
+    <p><%= user.name %></p>
+
+    <div class="userEthAddress">
+        <span class="clickToCopyMe" title="Click to Copy"><%= user.userAddress %></span>
+    </div>
+
+    <a href="/logout" class="primary-btn m-b-10">Log out</a>
+  </div>
+  

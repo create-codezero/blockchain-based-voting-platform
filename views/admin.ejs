@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EEVM Admin Panel : VoteChain</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 2px solid var(--primary-bg-shadow);
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: var(--white);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Focus state */
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 5px var(--primary-bg-shadow);
+}
+
+/* Form Groups */
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 2px solid var(--primary-bg-shadow);
+    border-radius: 10px;
+    background-color: var(--primary-bg);
+    margin-bottom: 30px;
+}
+
+/* Labels */
+label {
+    font-weight: 600;
+    margin-top: 10px;
+    color: var(--text-primary);
+}
+
+/* Result Text */
+.resultText {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary);
+    margin-top: 10px;
+}
+
+    </style>
+  <style>
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border: 2px solid var(--primary-bg-shadow);
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: var(--white);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 5px var(--primary-bg-shadow);
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 2px solid var(--primary-bg-shadow);
+  border-radius: 10px;
+  background-color: var(--primary-bg);
+  margin-bottom: 30px;
+}
+label {
+  font-weight: 600;
+  margin-top: 10px;
+  color: var(--text-primary);
+}
+.resultText {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary);
+  margin-top: 10px;
+}
+  </style>
+</head>
+
+<body>
+  <div class="mainContainer">
+
+    <h1 class="tagLine" style="text-align: center;">Admin Panel</h1>
+
+    
+        <div class="blockTitle">Candidates</div>
+        <ul class="candidatesCardsContainer">
+          <% candidates.forEach(candidate => { %>
+          <li class="candidateCard" style="list-style: none;">
+            <div class="upperPart">
+              <div class="candidateImage">
+                <img src="/uploads/images/<%= candidate.photoFileName %>" alt="<%= candidate.name %>" class="img-fluid-h">
+              </div>
+              <div class="candidateDetails">
+                <p class="candidateName"><strong>Name:</strong> <%= candidate.name %></p>
+                <p class="candidateOtherDetails"><strong>Region:</strong> <%= candidate.region %></p>
+                <p class="candidateOtherDetails"><strong>Age:</strong> <%= candidate.age %></p>
+                <p class="candidateOtherDetails"><strong>DOB:</strong> <%= candidate.dob %></p>
+                <p class="candidateOtherDetails"><strong>Experience:</strong> <%= candidate.experience %> years</p>
+                <p class="candidateOtherDetails"><strong>Votes:</strong> <%= candidate.voteCount %></p>
+              </div>
+            </div>
+            <div class="lowerPart">
+              <a class="viewManifesto secondary-btn" href="/uploads/docs/<%= candidate.manifestoFileName %>" target="_blank">
+                <i class="fa-solid fa-file"></i> Manifesto
+              </a>
+              <a class="vote primary-btn" href="javascript:void(0)" onclick="vote('<%= candidate.id %>')">
+                <i class="fa-solid fa-check-to-slot"></i> Vote
+              </a>
+            </div>
+          </li>
+          <% }); %>
+        </ul>
+
+    <div class="mainContent">
+      <div class="rightContent">
+        
+        <div class="blockTitle">Add Candidate (Admin Only)</div>
+        <form id="addCandidateForm" enctype="multipart/form-data" class="formGroup">
+          <input type="text" id="candidateName" class="inputField" placeholder="Candidate Name" required><br>
+          <input type="number" id="candidateAge" class="inputField" placeholder="Age" required><br>
+          <input type="date" id="candidateDOB" class="inputField" required><br>
+          <input type="text" id="candidateRegion" class="inputField" placeholder="Region Represented" required><br>
+          <input type="number" id="candidateExperience" class="inputField" placeholder="Experience (years)" required><br>
+          <label>Candidate Photo:</label>
+          <input type="file" id="candidatePhoto" class="inputField" accept="image/*" required><br>
+          <label>Policies & Manifesto:</label>
+          <input type="file" id="candidateManifesto" class="inputField" accept=".pdf,.doc,.docx" required><br>
+          <input type="text" id="adminAddress" class="inputField" value="0x1A08C5908E47Ea5b4A0a6d16ff84110d9Baf09D6"
+            placeholder="Admin Ethereum Address" required><br>
+          <button type="button" onclick="addCandidate()" class="primary-btn">Add Candidate</button>
+        </form>
+
+        
+        <div class="blockTitle">Election Results</div>
+        <button onclick="getResults()" class="secondary-btn">Get Winner</button>
+        <p id="winner" class="resultText"></p>
+      </div>
+    </div>
+  </div>
+
+  
+  <script>
+    async function registerUser() {
+      const name = document.getElementById("userName").value;
+      const mobile = document.getElementById("userMobile").value;
+      const aadhar = document.getElementById("userAadhar").value;
+      if (!name || !mobile || !aadhar) {
+        alert("Please fill in all fields!");
+        return;
+      }
+      const response = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, mobile, aadhar }),
+      });
+      const data = await response.json();
+      if (String(data.ethereumAddress) != "undefined") {
+        alert(data.message + "\nEthereum Address: " + data.ethereumAddress);
+      } else {
+        alert("Error! Please check entered data.");
+      }
+    }
+
+    async function loginUser() {
+      const aadhar = document.getElementById("loginAadhar").value;
+      const ethAddress = document.getElementById("loginEthAddress").value;
+      if (!aadhar || !ethAddress) {
+        alert("Please enter both Aadhar and Ethereum Address!");
+        return;
+      }
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ aadhar, ethAddress }),
+      });
+      const data = await response.json();
+      if (response.status === 401) {
+        alert("Invalid credentials!");
+      } else {
+        alert("Login Successful! Ethereum Address: " + data.ethereumAddress);
+      }
+    }
+
+    async function vote(candidateId) {
+      const voterAddress = prompt("Enter your Ethereum address:");
+      const response = await fetch("/vote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ candidateId, voterAddress }),
+      });
+      const data = await response.json();
+      alert(data.message);
+      location.reload();
+    }
+
+    async function addCandidate() {
+      const formData = new FormData();
+      formData.append("name", document.getElementById("candidateName").value);
+      formData.append("age", document.getElementById("candidateAge").value);
+      formData.append("dob", document.getElementById("candidateDOB").value);
+      formData.append("region", document.getElementById("candidateRegion").value);
+      formData.append("experience", document.getElementById("candidateExperience").value);
+      formData.append("photo", document.getElementById("candidatePhoto").files[0]);
+      formData.append("manifesto", document.getElementById("candidateManifesto").files[0]);
+      formData.append("adminAddress", document.getElementById("adminAddress").value);
+
+      const response = await fetch("/addCandidate", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      alert(data.message);
+      location.reload();
+    }
+
+    async function getResults() {
+      const response = await fetch("/results");
+      const data = await response.json();
+      document.getElementById("winner").innerText = `Winner: ${data.winner} (Votes: ${data.votes})`;
+    }
+  </script>
+</body>
+
+</html>

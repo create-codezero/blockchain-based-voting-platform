@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register : VoteChain</title>
+    <link rel="stylesheet" href="/css/userAuthStyle.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <%- include('component/header') %>
+    <div class="login-container">
+        <div class="form-card" id="loginForm">
+            <h2>Sign in</h2>
+            <p class="p">to continue to VoteChain</p>
+            <div>
+                <label>User Aadhaar Number</label>
+                <input type="text" placeholder="Enter Adhar Number" value="999648555386" id="logInAadhaarNumber" required>
+
+                <label>Eth Address</label>
+                <div class="password-container">
+                    <input type="password" placeholder="Enter Eth Address" value="0x6b135683eE5C2d8C6dF4a535e26D8f43f1772045" id="loginEthAddress" required>
+                </div>
+
+                <button onclick="loginUser()">Sign in</button>
+
+                <p class="signup-link p">New User? <a href="javascript:void(0)" onclick="changeState()">Create
+                        account</a></p>
+            </div>
+        </div>
+
+
+        <div class="form-card none" id="registerForm">
+            <h2>Register</h2>
+            <p class="p">to continue to VoteChain</p>
+            <div>
+                <label>Full Name</label>
+                <input type="text" placeholder="Enter Full Name" id="userFullName" required>
+
+                <label>User Aadhaar Number</label>
+                <input type="text" placeholder="Enter Aadhaar Number" id="aadharNumber" required>
+
+                <label>Phone</label>
+                <div class="password-container">
+                    <input type="password" placeholder="Enter Phone" id="userPhone" required>
+                </div>
+
+                <button onclick="registerUser()">Register</button>
+
+                <p class="signup-link p">Already A User? <a href="javascript:void(0)" onclick="changeState()">Sign
+                        In</a></p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        let currState = "login";
+
+        function changeState() {
+            $("#loginForm").toggleClass("none");
+            $("#registerForm").toggleClass("none");
+
+            
+            if (currState == "login") {
+                currState = "register";
+            } else {
+                currState = "login";
+            }
+        }
+        async function registerUser() {
+            const name = document.getElementById("userFullName").value;
+            const mobile = document.getElementById("userPhone").value;
+            const aadhar = document.getElementById("aadharNumber").value;
+
+            if (!name || !mobile || !aadhar) {
+                alert("Please fill in all fields!");
+                return;
+            }
+
+            const response = await fetch("/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name,
+                    mobile,
+                    aadhar
+                }),
+            });
+
+            const data = await response.json();
+
+            if (String(data.ethereumAddress) != "undefined") {
+                
+                if (data.success) {
+                    location.reload();
+                }
+            } else {
+                alert("Some Error Occurred! Please Check the data entered is correct or not.")
+            }
+
+        }
+
+        async function loginUser() {
+            const aadhar = document.getElementById("logInAadhaarNumber").value;
+            const ethAddress = document.getElementById("loginEthAddress").value;
+
+            if (!aadhar || !ethAddress) {
+                alert("Please enter both Aadhaar and Ethereum Address!");
+                return;
+            }
+
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    aadhar,
+                    ethAddress
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.status === 401) {
+                alert("Invalid login credentials!");
+            } else {
+                
+                location.reload();
+            }
+        }
+
+        async function checkLoginStatus() {
+            console.log("Checking login status");
+            
+            const response = await fetch("/check-session");
+            const data = await response.json();
+
+            if (data.loggedIn) {
+                window.location.href = "/dashboard"; // Redirect if already logged in
+            }
+        }
+
+        checkLoginStatus();
+
+        async function logoutUser() {
+            await fetch("/logout");
+            alert("Logged out successfully");
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>
