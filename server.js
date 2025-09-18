@@ -37,7 +37,7 @@ if (!fs.existsSync(docsDir)) fs.mkdirSync(docsDir);
 
 
 app.use(session({
-  secret: "HDFD439f3jfdkk88437239937JFDHBRIDJ3MDKKDUE343",
+  secret: "secret_key",
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
@@ -382,3 +382,4 @@ app.use("/js", express.static(path.join(__dirname, 'public/js'), {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
